@@ -16,7 +16,7 @@ const CATEGORY_METADATA: Partial<Record<Category, { icon: string; color: string;
   [Category.FoodAndHospitality]: { icon: '🍽️', color: 'from-orange-500 to-red-500', description: 'Restaurants • Cafés • Fine Dining • Shisanyama' },
   [Category.TourismTravelAndStays]: { icon: '✈️', color: 'from-blue-500 to-cyan-500', description: 'Hotels • Lodges • Guest Houses • Safari Stays' },
   [Category.LuxuryAndLifestyle]: { icon: '💎', color: 'from-purple-500 to-pink-500', description: 'Luxury Experiences' },
-  [Category.NightlifeAndEntertainment]: { icon: '🎭', color: 'from-indigo-500 to-purple-500', description: 'Nightclubs • Cocktail Bars • Lounges • Live Music • DJs • Casinos • Rooftop Bars' },
+  [Category.NightlifeAndEntertainment]: { icon: '🎭', color: 'from-indigo-500 to-purple-500', description: 'Clubs & Lounges • Live Music & Venues • Bars & Cocktail Lounges' },
   [Category.BeautyWellnessPersonalCare]: { icon: '💆', color: 'from-pink-500 to-rose-500', description: 'Hair • Nails • Spa • Aesthetics' },
   [Category.HealthAndMedical]: { icon: '⚕️', color: 'from-green-500 to-emerald-500', description: 'Clinics • Specialists • Dentistry • Private Care' },
   [Category.PetsVeterinaryAndAnimalCare]: { icon: '🐾', color: 'from-yellow-500 to-amber-500', description: 'Pets & Animals' },
@@ -30,9 +30,9 @@ const CATEGORY_METADATA: Partial<Record<Category, { icon: string; color: string;
   [Category.DigitalMediaAndTechnology]: { icon: '💻', color: 'from-cyan-600 to-blue-600', description: 'Software • Web Design • AI • Digital Solutions' },
   [Category.ManufacturingWholesaleSuppliers]: { icon: '🌾', color: 'from-green-700 to-emerald-700', description: 'Agriculture' },
   // New / added categories (properly keyed to Category enum)
-  [Category.WeddingAndBridal]: { icon: '💍', color: 'from-pink-500 to-rose-500', description: 'Wedding Venues • Bridal Shops • Photographers • Decor • Catering' },
-  [Category.AgricultureAndFarming]: { icon: '�', color: 'from-green-600 to-green-700', description: 'Farm Supplies • Equipment • Livestock • Irrigation • Agri Services' },
-  [Category.IndustrialAndMiningServices]: { icon: '�', color: 'from-gray-700 to-gray-800', description: 'Mining Contractors • Engineering • Safety Equipment • Industrial Supply' },
+  [Category.WeddingAndBridal]: { icon: '�', color: 'from-pink-500 to-rose-500', description: 'Wedding Venues • Bridal Shops • Wedding Planners' },
+    [Category.AgricultureAndFarming]: { icon: '🌾', color: 'from-green-600 to-green-700', description: 'Farm Equipment • Tractor Dealers • Irrigation Systems' },
+    [Category.IndustrialAndMiningServices]: { icon: '🏗️', color: 'from-gray-700 to-gray-800', description: 'Mining Contractors • Engineering Companies • Industrial Equipment' },
   // CommunityAndOrganisations removed
   [Category.GovernmentAndPublicServices]: { icon: '🏛️', color: 'from-slate-600 to-slate-800', description: 'Government' },
   [Category.EventsExperiencesAndOccasions]: { icon: '🎉', color: 'from-pink-500 to-purple-500', description: 'Venues • Weddings • Conferences • Entertainment' },

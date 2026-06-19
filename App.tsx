@@ -80,6 +80,7 @@ import EducationCard from './components/EducationCard';
 import HomePremium from './components/HomePremium';
 import HomeDetailView from './components/HomeDetailView';
 import BeautyServicesPage from './components/BeautyServicesPage';
+import WeddingServicesPage from './components/WeddingServicesPage';
 import PropertyDetailViewPremium from './components/PropertyDetailViewPremium';
 import PropertyPremium from './components/PropertyPremium';
 import EstatePremium from './components/EstatePremium';
@@ -2049,15 +2050,15 @@ const DirectoryView = ({ navigate, favorites, toggleFavorite, businesses, initia
         { label: Category.RealEstateAndProperty, icon: RealEstateIcon },
         { label: Category.BeautyWellnessPersonalCare, icon: BeautyIcon },
         { label: Category.HealthAndMedical, icon: HealthIcon },
-        { label: Category.ShoppingAndRetail, icon: RetailIcon },
+    { label: Category.ShoppingAndRetail, icon: ShoppingIcon },
         { label: Category.Automotive, icon: AutomotiveIcon },
         { label: Category.TransportChauffeursFleet, icon: TransportIcon },
         { label: Category.HomeConstructionAndTrades, icon: HomeTradesIcon },
         { label: Category.LegalAndAdvisory, icon: BusinessIcon },
         { label: Category.DigitalMediaAndTechnology, icon: ITIcon },
         { label: Category.EducationAndSkills, icon: EducationIcon },
-        { label: Category.EventsExperiencesAndOccasions, icon: EventIcon },
-        { label: Category.WeddingAndBridal, icon: EventIcon },
+    { label: Category.EventsExperiencesAndOccasions, icon: EventIcon },
+    { label: Category.WeddingAndBridal, icon: BeautyIcon },
         { label: Category.SportsFitnessAndRecreation, icon: SportsIcon },
         { label: Category.PetsVeterinaryAndAnimalCare, icon: PetsIcon },
         { label: Category.SecurityProtectionAndResponse, icon: SecurityIcon },
@@ -2084,9 +2085,9 @@ const DirectoryView = ({ navigate, favorites, toggleFavorite, businesses, initia
         [Category.PetsVeterinaryAndAnimalCare]: 'Veterinary Clinics • Grooming • Boarding • Training',
         [Category.SecurityProtectionAndResponse]: 'Armed Response • Private Security • VIP Protection • Surveillance',
         [Category.NightlifeAndEntertainment]: 'Nightclubs • Cocktail Bars • Lounges • Live Music • DJs • Casinos • Rooftop Bars',
-        [Category.WeddingAndBridal]: 'Wedding Venues • Bridal Shops • Photographers • Decor • Catering',
-        [Category.AgricultureAndFarming]: 'Farm Supplies • Equipment • Livestock • Irrigation • Agri Services',
-        [Category.IndustrialAndMiningServices]: 'Mining Contractors • Engineering • Safety Equipment • Industrial Supply'
+    [Category.WeddingAndBridal]: 'Wedding Venues • Bridal Shops • Wedding Planners',
+        [Category.AgricultureAndFarming]: 'Farm Equipment • Tractor Dealers • Irrigation Systems',
+        [Category.IndustrialAndMiningServices]: 'Mining Contractors • Engineering Companies • Industrial Equipment'
     };
 
     useEffect(() => {
@@ -4638,7 +4639,7 @@ function App() {
                 { label: Category.DigitalMediaAndTechnology, icon: ITIcon },
                 { label: Category.EducationAndSkills, icon: EducationIcon },
                 { label: Category.EventsExperiencesAndOccasions, icon: EventIcon },
-                { label: Category.WeddingAndBridal, icon: EventIcon },
+                { label: Category.WeddingAndBridal, icon: BeautyIcon },
                 { label: Category.SportsFitnessAndRecreation, icon: SportsIcon },
                 { label: Category.PetsVeterinaryAndAnimalCare, icon: PetsIcon },
                 { label: Category.SecurityProtectionAndResponse, icon: BusinessIcon },
@@ -4980,6 +4981,10 @@ function App() {
             if (activeCategory === Category.TourismTravelAndStays) {
                 return <DirectoryStaysPage navigate={handleNavigate} businesses={localBusinesses} />;
             }
+            // For Nightlife & Entertainment, render the NightlifePage (Eats-like UX tailored for nightlife)
+            if (activeCategory === Category.NightlifeAndEntertainment || activeCategory === 'Nightlife & Entertainment' || activeCategory === 'NIGHTLIFE & ENTERTAINMENT') {
+                return <NightlifePage navigate={handleNavigate} />;
+            }
             return <ListingGridView title={activeCategory || "Directory"} items={categoryListings} type="business" favorites={favorites} toggleFavorite={toggleFavorite} navigate={handleNavigate} category={activeCategory} medicalBusinesses={medicalListings} />;
         case 'subcategory': {
                 // For the Beauty category, render the dedicated BeautyServicesPage
@@ -4987,6 +4992,21 @@ function App() {
                 // HAIR SALONS • BARBER SHOPS • NAIL & BEAUTY STUDIOS landing).
                 if (activeCategory === Category.BeautyWellnessPersonalCare || activeCategory === 'Beauty & Wellness' || activeCategory === 'BEAUTY & WELLNESS') {
                     return <BeautyServicesPage navigate={handleNavigate} businesses={localBusinesses} />;
+                }
+
+                // For Wedding & Bridal, render the dedicated WeddingServicesPage with the same layout
+                if (activeCategory === Category.WeddingAndBridal || activeCategory === 'Wedding & Bridal' || activeCategory === 'WEDDING & BRIDAL') {
+                    return <WeddingServicesPage navigate={handleNavigate} businesses={localBusinesses} />;
+                }
+
+                // For Agriculture & Farming use the Services template
+                if (activeCategory === Category.AgricultureAndFarming || activeCategory === 'Agriculture & Farming' || activeCategory === 'AGRICULTURE & FARMING') {
+                    return <ServicesPage navigate={handleNavigate} businesses={localBusinesses} categoryKey={Category.AgricultureAndFarming} />;
+                }
+
+                // For Industrial & Mining Services use the Services template
+                if (activeCategory === Category.IndustrialAndMiningServices || activeCategory === 'Industrial & Mining Services' || activeCategory === 'INDUSTRIAL & MINING SERVICES') {
+                    return <ServicesPage navigate={handleNavigate} businesses={localBusinesses} categoryKey={Category.IndustrialAndMiningServices} />;
                 }
 
                 // For Automotive category, render the CarsView (full automotive UI)

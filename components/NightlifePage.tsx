@@ -4,7 +4,7 @@ import { NightlifeVenue, MPUMALANGA_AREAS, Category, CategorySubcategories } fro
 import { SectionTitle } from './Shared';
 import { Search } from 'lucide-react';
 
-// New experience-first Nightlife page: "Lowveld After Dark"
+// New experience-first Nightlife page using Eats layout but tailored for nightlife
 const CHIPS = ['Tonight', 'This Weekend', 'Rooftops', 'Live Music', 'Cocktails', 'Clubs'];
 
 const sampleHeroVideo = 'https://storage.googleapis.com/lowveld-assets/nightlife-hero.mp4';
@@ -87,23 +87,29 @@ const NightlifePage: React.FC<{ navigate: (view: string, category?: string, id?:
   ];
 
   return (
-    <div className="min-h-screen bg-[#090909] text-white">
-      {/* HERO: cinematic video background with chips + CTA */}
-      <section className="relative h-[60vh] md:h-[68vh] overflow-hidden">
-        <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover">
-          <source src={sampleHeroVideo} type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-black/50"></div>
-        <div className="relative z-20 container mx-auto px-6 h-full flex flex-col justify-center">
-          <h1 className="text-4xl md:text-6xl font-serif tracking-tight mb-3">Lowveld After Dark</h1>
-          <p className="text-gray-300 max-w-2xl mb-6">Cinematic nights. Curated experiences. Reserve your evening at Mpumalanga's finest venues.</p>
+    <div className="pt-24 pb-16 min-h-screen bg-black">
+      {/* ===== HERO SECTION ===== */}
+      <section className="bg-black border-b border-white/10">
+        <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-3">
+              <span className="text-yellow-400">Where Mpumalanga Goes Out</span>
+            </h1>
+            <p className="text-lg text-slate-300 mb-8">
+              Explore verified clubs, live music venues, and premium nightlife experiences across Mpumalanga.
+            </p>
 
-          <div className="flex items-center gap-3 flex-wrap">
-            {CHIPS.map(c => (
-              <button key={c} onClick={() => setActiveChip(c)} className={`px-4 py-2 rounded-full text-sm font-medium ${activeChip===c? 'bg-[#D4AF37] text-black' : 'bg-black/40 text-gray-200'}`}>
-                {c}
-              </button>
-            ))}
+            {/* Search Bar */}
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search clubs, venues, DJs…"
+                value={searchTerm}
+                onChange={(e) => { setSearchTerm(e.target.value); }}
+                className="w-full pl-12 pr-4 py-3 rounded-lg border border-white/10 bg-black/70 backdrop-blur-md text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/50 focus:border-yellow-400/50 transition-all"
+              />
+            </div>
           </div>
         </div>
       </section>
