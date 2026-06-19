@@ -1,0 +1,123 @@
+/* 
+ * LOWVELDHUB - Main Stylesheet
+ * Tailwind CSS is loaded via CDN in index.html
+ * This file is kept for build compatibility
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* Global styles */
+:root {
+  --color-gold-500: #E3B92C;
+  --color-gold-600: #B69423;
+  --color-gold-700: #886F1A;
+  --color-black: #0a0a0a;
+  --color-charcoal: #121212;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-black);
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1.6;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+}
+
+/* Links */
+a {
+  color: var(--color-gold-500);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-gold-600);
+}
+
+/* Buttons */
+button {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* Scroll behavior */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-charcoal);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold-600);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-500);
+}
+
+/* Utility classes */
+.truncate-line-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.truncate-line-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Input styling */
+input,
+textarea,
+select {
+  font-family: inherit;
+  color: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-gold-500);
+  color: var(--color-black);
+}
+
+::-moz-selection {
+  background-color: var(--color-gold-500);
+  color: var(--color-black);
+}

@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+# Specific rules for different bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Prevent indexing of certain paths
+Disallow: /*.json$
+Disallow: /*.xml$
+
+# Crawl delay for respectful indexing
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://lowveldhub.co.za/sitemap.xml
