@@ -1,8 +1,8 @@
 import React from 'react';
-import { Eatery } from '../types';
+// Support both Eatery and NightlifeVenue shapes
 import { MapPin, Star } from 'lucide-react';
 
-const EateryCard: React.FC<{ eatery: Eatery; onView: (id: string) => void; onContact?: (eatery: Eatery) => void }> = React.memo(({ eatery, onView }) => {
+const EateryCard: React.FC<{ eatery: any; onView: (id: string) => void; onContact?: (eatery: any) => void }> = React.memo(({ eatery, onView }) => {
   return (
     <article
       onClick={() => onView(eatery.id)}
@@ -12,7 +12,7 @@ const EateryCard: React.FC<{ eatery: Eatery; onView: (id: string) => void; onCon
       {/* Image - hero */}
       <div className="w-full" style={{ aspectRatio: '17 / 10', overflow: 'hidden' }}>
         <img
-          src={eatery.images?.[0] || ''}
+          src={eatery.images?.[0] || eatery.image || ''}
           alt={eatery.name}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           style={{ display: 'block' }}
@@ -26,7 +26,7 @@ const EateryCard: React.FC<{ eatery: Eatery; onView: (id: string) => void; onCon
 
         {/* Metadata: Category then Location (location on its own line) */}
         <div className="mt-2">
-          <div className="text-sm text-gray-400">{eatery.category}</div>
+          <div className="text-sm text-gray-400">{eatery.category || eatery.subcategory}</div>
           <div className="text-xs text-gray-500 mt-1 flex items-center gap-2">
             <MapPin size={14} className="text-gray-400" />
             <span className="truncate">{typeof eatery.location === 'string' ? eatery.location : eatery.location?.area}</span>

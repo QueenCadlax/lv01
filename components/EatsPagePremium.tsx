@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import EateryCard from './EateryCard';
 import { eateries } from '../data/eatsSeeds';
+import { nightlifeVenues } from '../data/nightlifeSeeds';
 import { Eatery, MPUMALANGA_AREAS } from '../types';
-import { Search, Star, Flame, Utensils } from 'lucide-react';
+import { Search, Star, Flame, Utensils, Music } from 'lucide-react';
 
 const priceLabelToRange = (label: string) => {
   switch (label) {
@@ -14,7 +15,7 @@ const priceLabelToRange = (label: string) => {
   }
 };
 
-const EatsPagePremium: React.FC<{ navigate: (view: string, category?: string, id?: string) => void }> = ({ navigate }) => {
+const EatsPagePremium: React.FC<{ navigate: (view: string, category?: string, id?: string) => void, title?: string, subtitle?: string, placeholder?: string, hideShisanyama?: boolean, allListLabel?: string, nightlifeMode?: boolean }> = ({ navigate, title, subtitle, placeholder, hideShisanyama, allListLabel, nightlifeMode }) => {
   const [filters, setFilters] = useState<any>({ areas: [], cuisines: [], category: '', priceMin: 0, priceMax: 2500, verified: false });
   const [searchTerm, setSearchTerm] = useState('');
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
@@ -25,55 +26,79 @@ const EatsPagePremium: React.FC<{ navigate: (view: string, category?: string, id
   const [sortBy, setSortBy] = useState('rating');
   const [areaQuery, setAreaQuery] = useState('');
 
+  const source = nightlifeMode ? nightlifeVenues : eateries;
+
   const allSuggestions = useMemo(() => {
+    if (nightlifeMode) {
+      const names = source.map((v: any) => v.name);
+      const tags = source.flatMap((v: any) => v.tags || []);
+      return Array.from(new Set([...names, ...tags]));
+    }
     const names = eateries.map(e => e.name);
     const cuisines = eateries.flatMap(e => e.cuisine || []);
     const dishes = eateries.flatMap(e => (e.menu || []).map(m => m.itemName));
     return Array.from(new Set([...names, ...cuisines, ...dishes]));
-  }, []);
+  }, [nightlifeMode]);
 
   // unique cuisines list for the filter popover
   const uniqueCuisines = useMemo(() => {
+    if (nightlifeMode) {
+      const types = source.flatMap((v: any) => [(v.subcategory || ''), ...(v.tags || [])]);
+      return Array.from(new Set(types.filter(Boolean))).sort((a: string, b: string) => a.localeCompare(b));
+    }
     const c = eateries.flatMap(e => e.cuisine || []);
     return Array.from(new Set(c)).sort((a: string, b: string) => a.localeCompare(b));
-  }, []);
+  }, [nightlifeMode]);
 
-  const typeOptions = ['Fine Dining', 'Casual', 'Fast Food', 'Cafe', 'Bar', 'Takeaway'];
+  const typeOptions = nightlifeMode ? ['Clubs', 'Lounges', 'Live Music', 'Rooftops', 'Bars', 'Comedy', 'VIP'] : ['Fine Dining', 'Casual', 'Fast Food', 'Cafe', 'Bar', 'Takeaway'];
 
   const filtered = useMemo(() => {
-    let result = eateries.filter((e) => {
+    let result = source.filter((e: any) => {
       if (filters.areas && filters.areas.length) {
         const area = typeof e.location === 'string' ? e.location : e.location.area;
         if (!filters.areas.includes(area)) return false;
       }
       if (filters.category && filters.category !== '' && e.category !== filters.category) return false;
       if (filters.cuisines && filters.cuisines.length) {
-        const has = filters.cuisines.every((c: string) => (e.cuisine || []).includes(c));
-        if (!has) return false;
+        if (nightlifeMode) {
+          const has = filters.cuisines.every((c: string) => ((e.tags || []).concat(e.subcategory || '')).join(' ').toLowerCase().includes(c.toLowerCase()));
+          if (!has) return false;
+        } else {
+          const has = filters.cuisines.every((c: string) => (e.cuisine || []).includes(c));
+          if (!has) return false;
+        }
       }
       if (filters.verified && !e.verified) return false;
-      const [low, high] = [filters.priceMin ?? 0, filters.priceMax ?? 99999];
-      const numeric = (() => {
-        if (e.menu && e.menu.length) {
-          const nums = e.menu.map(m => parseInt((m.price || '').replace(/\D/g,''),10) || 0).filter(n=>n>0);
-          if (nums.length) return nums.reduce((a,b)=>a+b,0)/nums.length;
-        }
-        const pr = priceLabelToRange(e.priceRange || '');
-        return (pr[0]+pr[1])/2;
-      })();
-      if (numeric < low || numeric > high) return false;
+      if (!nightlifeMode) {
+        const [low, high] = [filters.priceMin ?? 0, filters.priceMax ?? 99999];
+        const numeric = (() => {
+          if (e.menu && e.menu.length) {
+            const nums = e.menu.map(m => parseInt((m.price || '').replace(/\D/g,''),10) || 0).filter(n=>n>0);
+            if (nums.length) return nums.reduce((a,b)=>a+b,0)/nums.length;
+          }
+          const pr = priceLabelToRange(e.priceRange || '');
+          return (pr[0]+pr[1])/2;
+        })();
+        if (numeric < low || numeric > high) return false;
+      }
       if (searchTerm && searchTerm.length > 1) {
         const q = searchTerm.toLowerCase();
-        const inName = e.name.toLowerCase().includes(q);
-        const inCuisine = (e.cuisine || []).some(c => c.toLowerCase().includes(q));
-        const inMenu = (e.menu || []).some(m => (m.itemName || '').toLowerCase().includes(q));
-        if (!(inName || inCuisine || inMenu)) return false;
+        const inName = (e.name || '').toLowerCase().includes(q);
+        if (nightlifeMode) {
+          const inTags = (e.tags || []).some((t: string) => t.toLowerCase().includes(q));
+          const inDesc = (e.description || '').toLowerCase().includes(q);
+          if (!(inName || inTags || inDesc)) return false;
+        } else {
+          const inCuisine = (e.cuisine || []).some(c => c.toLowerCase().includes(q));
+          const inMenu = (e.menu || []).some(m => (m.itemName || '').toLowerCase().includes(q));
+          if (!(inName || inCuisine || inMenu)) return false;
+        }
       }
       return true;
     });
 
-    if (sortBy === 'rating') result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-    else if (sortBy === 'trending') result.sort((a, b) => ((b.reviews?.length) || 0) - ((a.reviews?.length) || 0));
+  if (sortBy === 'rating') result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+  else if (sortBy === 'trending') result.sort((a, b) => (((b as any).reviews?.length) || 0) - (((a as any).reviews?.length) || 0));
     else if (sortBy === 'newest') result.sort((a, b) => (b.id?.localeCompare(a.id) || 0));
 
     return result;
@@ -87,7 +112,7 @@ const EatsPagePremium: React.FC<{ navigate: (view: string, category?: string, id
   const MAX_GRID = 4;
   const displayed = filtered.slice(0, MAX_GRID);
 
-  const handleView = useCallback((id: string) => navigate('eatery-detail', undefined, id), [navigate]);
+  const handleView = useCallback((id: string) => navigate(nightlifeMode ? 'nightlife-detail' : 'eatery-detail', undefined, id), [navigate, nightlifeMode]);
   const handleContact = useCallback((e: Eatery) => {
     if (e.contactOptions?.whatsapp) window.open(`https://wa.me/${e.contactOptions.whatsapp.replace(/\D/g, '')}`);
     else if (e.contactOptions?.call) window.location.href = `tel:${e.contactOptions.call}`;
@@ -100,18 +125,18 @@ const EatsPagePremium: React.FC<{ navigate: (view: string, category?: string, id
         <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-serif font-bold text-white mb-3">
-              <span className="text-yellow-400">Where Mpumalanga Eats</span>
+              <span className="text-yellow-400">{title || (nightlifeMode ? 'Where Mpumalanga Goes Out' : 'Where Mpumalanga Eats')}</span>
             </h1>
             <p className="text-lg text-slate-300 mb-8">
-              Explore verified restaurants, shisanyama, and dining experiences across Mpumalanga.
+              {subtitle || (nightlifeMode ? 'CLUBS & LOUNGES • LIVE MUSIC & VENUES • BARS & COCKTAIL LOUNGES' : 'Explore verified restaurants, shisanyama, and dining experiences across Mpumalanga.')}
             </p>
 
             {/* Search Bar */}
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search restaurants, cuisines, dishes…"
+                placeholder={placeholder || (nightlifeMode ? 'Search clubs, venues, or nightlife experiences…' : 'Search restaurants, cuisines, dishes…')}
                 value={searchTerm}
                 onChange={(e) => { setSearchTerm(e.target.value); setSuggestionsOpen(true); }}
                 onFocus={() => setSuggestionsOpen(true)}
@@ -153,13 +178,13 @@ const EatsPagePremium: React.FC<{ navigate: (view: string, category?: string, id
           </div>
 
           {/* Combined Type & Cuisine selector */}
-          <div className="relative">
+            <div className="relative">
             <button onClick={() => setTypeCuisineOpen(!typeCuisineOpen)} className="px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all whitespace-nowrap" style={{ background: '#000', border: '1px solid rgba(255,255,255,0.06)', color: '#fff' }}>
-              {(filters.category || (filters.cuisines && filters.cuisines.length)) ? ((filters.category ? `${filters.category}` : '') + (filters.cuisines && filters.cuisines.length ? (filters.category ? ` • ${filters.cuisines.length}` : `${filters.cuisines.length}`) : '')) : 'Type / Cuisine'}
+              {(filters.category || (filters.cuisines && filters.cuisines.length)) ? ((filters.category ? `${filters.category}` : '') + (filters.cuisines && filters.cuisines.length ? (filters.category ? ` • ${filters.cuisines.length}` : `${filters.cuisines.length}`) : '')) : (nightlifeMode ? 'Type / Vibe' : 'Type / Cuisine')}
             </button>
             {typeCuisineOpen && (
               <div className="absolute mt-2 w-72 bg-black border border-white/10 rounded-lg p-3 shadow-lg z-40" style={{ borderColor: 'rgba(201,162,77,0.16)' }}>
-                <input placeholder="Filter types & cuisines..." value={typeCuisineQuery} onChange={(e)=>setTypeCuisineQuery(e.target.value)} className="w-full bg-black/80 text-gray-200 px-3 py-2 rounded mb-3 border border-white/10" />
+                <input placeholder={nightlifeMode ? 'Filter types & genres...' : 'Filter types & cuisines...'} value={typeCuisineQuery} onChange={(e)=>setTypeCuisineQuery(e.target.value)} className="w-full bg-black/80 text-gray-200 px-3 py-2 rounded mb-3 border border-white/10" />
 
                 <div className="mb-2">
                   <div className="text-xs text-gray-400 uppercase mb-2">Type</div>
@@ -175,7 +200,7 @@ const EatsPagePremium: React.FC<{ navigate: (view: string, category?: string, id
                 </div>
 
                 <div>
-                  <div className="text-xs text-gray-400 uppercase mb-2">Cuisines</div>
+                  <div className="text-xs text-gray-400 uppercase mb-2">{nightlifeMode ? 'Genres & Tags' : 'Cuisines'}</div>
                   <div className="max-h-36 overflow-auto space-y-1">
                     {uniqueCuisines.filter(c => c.toLowerCase().includes(typeCuisineQuery.toLowerCase()) || typeCuisineQuery === '').map(c => {
                       const active = Array.isArray(filters.cuisines) && filters.cuisines.includes(c);
@@ -213,7 +238,7 @@ const EatsPagePremium: React.FC<{ navigate: (view: string, category?: string, id
         </div>
 
         {/* FEATURED: SHISANYAMA */}
-        {shisanyama.length > 0 && (
+        {!hideShisanyama && shisanyama.length > 0 && (
           <section>
             <div className="flex items-center gap-2 mb-6">
               <Utensils size={24} style={{ color: '#C9A24D' }} />
@@ -232,7 +257,7 @@ const EatsPagePremium: React.FC<{ navigate: (view: string, category?: string, id
         {/* ALL RESTAURANTS */}
         <section>
           <h2 className="text-2xl font-bold mb-6">
-            All Restaurants{' '}
+            {allListLabel || (nightlifeMode ? 'All Venues' : 'All Restaurants')}{' '}
             <span className="text-sm text-gray-400">
               {filtered.length > displayed.length ? `Showing ${displayed.length} of ${filtered.length} results` : `${filtered.length} results`}
             </span>
@@ -244,11 +269,16 @@ const EatsPagePremium: React.FC<{ navigate: (view: string, category?: string, id
                 ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div style={{ fontSize: '48px', marginBottom: '16px' }}>🍽️</div>
-              <h3 className="text-2xl font-bold mb-2">No Restaurants Found</h3>
-              <p style={{ color: '#CFCFCF' }}>Try adjusting your filters or search term to discover amazing dining experiences</p>
-            </div>
+            // For nightlife we intentionally render a minimal spacer when there are no venues
+            nightlifeMode ? (
+              <div className="py-12" />
+            ) : (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <div style={{ fontSize: '48px', marginBottom: '16px' }}>🍽️</div>
+                <h3 className="text-2xl font-bold mb-2">No Restaurants Found</h3>
+                <p style={{ color: '#CFCFCF' }}>Try adjusting your filters or search term to discover amazing dining experiences</p>
+              </div>
+            )
           )}
         </section>
       </div>

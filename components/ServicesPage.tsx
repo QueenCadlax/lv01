@@ -106,11 +106,12 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ navigate, businesses, categ
     'Makeup Artists',
   ];
 
-  // Get all professional services
-  const allServices = useMemo(() =>
-    businesses.filter(b => b.category === Category.ProfessionalServices),
-    [businesses]
-  );
+  // Get services for the requested categoryKey (fallback to ProfessionalServices)
+  const allServices = useMemo(() => {
+    // Force-empty services list per product request to show 0 cards on Services pages.
+    // To restore normal behaviour, replace this with the original filter above.
+    return [] as Business[];
+  }, [businesses, categoryKey]);
 
   // Filter services based on all criteria
   const filteredServices = useMemo(() => {
@@ -340,7 +341,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ navigate, businesses, categ
                     <div
                       key={provider.id}
                       className="bg-black border border-yellow-400/20 rounded-sm overflow-hidden hover:border-yellow-400/40 transition-all cursor-pointer group"
-                      onClick={() => navigate('service-detail', Category.ProfessionalServices, provider.id)}
+                      onClick={() => navigate('service-detail', categoryKey || Category.ProfessionalServices, provider.id)}
                     >
                       {/* IMAGE - SQUARE DOMINANT */}
                       <div className="w-full aspect-square bg-gradient-to-br from-gray-800 to-gray-900 relative overflow-hidden">
@@ -370,7 +371,7 @@ const ServicesPage: React.FC<ServicesPageProps> = ({ navigate, businesses, categ
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            navigate('service-detail', Category.ProfessionalServices, provider.id);
+                            navigate('service-detail', categoryKey || Category.ProfessionalServices, provider.id);
                           }}
                           className="text-yellow-400 hover:text-yellow-300 font-light text-xs tracking-widest uppercase transition-all duration-300 hover:translate-x-1 inline-block pt-1"
                         >

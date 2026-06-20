@@ -161,44 +161,7 @@ export const investmentAndFinancialAdvisors: Business[] = [
 ];
 
 // CRYPTOCURRENCY & BLOCKCHAIN SERVICES
-export const cryptoAndBlockchainServices: Business[] = [
-  {
-    id: 'fin_crypto_001',
-    name: 'Quantum Blockchain & Crypto Solutions',
-  category: Category.LuxuryAndLifestyle,
-    subcategory: 'CRYPTOCURRENCY & BLOCKCHAIN SERVICES',
-    tier: ListingTier.Platinum,
-    location: 'Mbombela',
-    rating: 4.9,
-    reviewCount: 534,
-    description: 'Leading cryptocurrency exchange, blockchain consulting, digital asset management, and crypto investment services. Secure platform, expert guidance, institutional-grade security.',
-    image: 'https://images.unsplash.com/photo-1553531088-df340cf313d8?w=800&h=600&fit=crop',
-    phone: '+27 13 752 8900',
-    email: 'support@quantumblockchain.co.za',
-    website: 'www.quantumblockchain.co.za',
-    subscriptionDuration: SubscriptionDuration.TwelveMonths,
-    isPlatinum: true,
-    tags: ['Cryptocurrency', 'Blockchain', 'Digital Assets', 'Crypto Trading', 'Secure Platform']
-  },
-  {
-    id: 'fin_crypto_002',
-    name: 'Digital Asset Management Services',
-  category: Category.LuxuryAndLifestyle,
-    subcategory: 'CRYPTOCURRENCY & BLOCKCHAIN SERVICES',
-    tier: ListingTier.Elite,
-    location: 'White River',
-    rating: 4.8,
-    reviewCount: 478,
-    description: 'Professional cryptocurrency services including trading, wallet management, blockchain education, and investment opportunities. Secure, transparent, expert support.',
-    image: 'https://images.unsplash.com/photo-1621761191319-c6fb62b63ef5?w=800&h=600&fit=crop',
-    phone: '+27 13 774 9900',
-    email: 'info@digitalassetmgmt.co.za',
-    website: 'www.digitalassetmgmt.co.za',
-    subscriptionDuration: SubscriptionDuration.TwelveMonths,
-    isElite: true,
-    tags: ['Digital Assets', 'Crypto Services', 'Blockchain', 'Secure Trading', 'Professional']
-  }
-];
+export const cryptoAndBlockchainServices: Business[] = [];
 
 // ESTATE PLANNING & WILLS
 export const estatePlanningAndWills: Business[] = [

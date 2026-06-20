@@ -239,3 +239,5 @@ export const industrialToolsAndMachinery: Business[] = [
     tags: ['Industrial', 'Machinery', 'Tools', 'Equipment', 'Professional']
   }
 ];
+
+// Norse Projects duplicate removed per request — Industrial & Mining seeds now only include canonical items above.

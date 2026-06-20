@@ -444,38 +444,8 @@ export const businesses: Business[] = [
     priceLevel: '$$',
     tags: ['child-friendly', 'indoor play', 'outdoor play', 'educational', 'weekend activities']
   },
-  {
-    id: 'fam_lowveld_youth',
-    name: 'Lowveld Community Youth Centre',
-  category: Category.ProfessionalServices,
-    subcategory: 'LOCAL COMMUNITY CENTRES',
-    description: 'Community centre offering youth programmes, sports facilities and family events.',
-    location: 'Mbombela',
-    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800',
-    rating: 4.7,
-    reviewCount: 156,
-    tier: ListingTier.Elite,
-    subscriptionDuration: SubscriptionDuration.SixMonths,
-    isElite: true,
-    priceLevel: '$',
-    tags: ['community-focused', 'educational', 'family-friendly', 'weekend activities', 'after-school care']
-  },
-  {
-    id: 'fam_rhema_church',
-    name: 'Rhema Family Church',
-  category: Category.ProfessionalServices,
-    subcategory: 'RELIGIOUS CENTRES (CHURCHES & MOSQUES)',
-    description: 'Faith-based family church with youth programmes, community outreach and family services.',
-    location: 'Nelspruit',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800',
-    rating: 4.6,
-    reviewCount: 67,
-    tier: ListingTier.Premium,
-    subscriptionDuration: SubscriptionDuration.SixMonths,
-    isPremium: true,
-    priceLevel: 'Free',
-    tags: ['faith-based', 'family-friendly', 'community-focused', 'educational']
-  },
+  
+  
   {
     id: 'fam_masjid_alhuda',
     name: 'Masjid Al-Huda',
@@ -1185,28 +1155,7 @@ export const businesses: Business[] = [
     contactMethods: { call: '+27 17 632 8800', whatsapp: '+27 82 632 8800', enquiry: true },
     acceptsBookings: false
   },
-  {
-    id: 'b107',
-    name: 'Mbombela Interiors & Design',
-    category: Category.HomeConstructionAndTrades,
-  subcategory: 'SERVICES',
-    description: 'Bespoke interiors studio crafting contemporary spaces with artisan finishes and local materials.',
-    location: 'Mbombela',
-    images: [
-      'https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1505691723518-36a5d0b1c4b3?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&q=80&w=1200',
-      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=1200'
-    ],
-    image: 'https://images.unsplash.com/photo-1493666438817-866a91353ca9?auto=format&fit=crop&q=80&w=800',
-    rating: 4.8,
-    reviewCount: 52,
-    sellerStatus: 'Verified',
-    tier: ListingTier.Premium,
-    subscriptionDuration: SubscriptionDuration.SixMonths,
-    contactMethods: { call: '+27 13 740 2202', whatsapp: '+27 82 740 2202', enquiry: true },
-    acceptsBookings: true
-  },
+  
   {
     id: 'b108',
     name: 'White River Wedding Gardens',

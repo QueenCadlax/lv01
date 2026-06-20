@@ -1,164 +1,16 @@
 import { Business, ListingTier, Category, SubscriptionDuration } from '../types';
 
 // SERVICES
-export const buildersContractors: Business[] = [
-  {
-    id: 'bc_001',
-    name: 'Mpumalanga Premium Construction Group',
-    category: Category.HomeConstructionAndTrades,
-    subcategory: 'SERVICES',
-    tier: ListingTier.Platinum,
-    location: 'Mbombela',
-    rating: 4.9,
-    reviewCount: 412,
-    description: 'Award-winning construction firm specializing in residential & commercial builds, renovations, project management, and turnkey solutions with premium craftsmanship.',
-    image: 'https://images.unsplash.com/photo-1581578731548-c64695c952952?w=500&h=400&fit=crop',
-    phone: '+27 13 741 4200',
-    email: 'projects@mpumalangaconstruction.co.za',
-    website: 'www.mpumalangaconstruction.co.za',
-    subscriptionDuration: SubscriptionDuration.TwelveMonths,
-    isPlatinum: true,
-    tags: ['Residential', 'Commercial', 'Project Management', 'Award-Winning', 'Premium Builds'],
-  },
-  {
-    id: 'bc_002',
-    name: 'Lowveld Quality Builders',
-    category: Category.HomeConstructionAndTrades,
-  subcategory: 'SERVICES',
-    tier: ListingTier.Elite,
-    location: 'White River',
-    rating: 4.8,
-    reviewCount: 287,
-    description: 'Professional building contractors offering residential construction, renovations, extensions, and expert project supervision with attention to detail.',
-    image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=500&h=400&fit=crop',
-    phone: '+27 13 751 5100',
-    email: 'build@lowveldquality.co.za',
-    website: 'www.lowveldquality.co.za',
-    subscriptionDuration: SubscriptionDuration.TwelveMonths,
-    isElite: true,
-    tags: ['Quality Work', 'Professional', 'Residential', 'Extensions', 'On-Time Delivery'],
-  },
-];
+export const buildersContractors: Business[] = [];
 
 // PLUMBING & ELECTRICAL
-export const plumbingElectrical: Business[] = [
-  {
-    id: 'pe_001',
-    name: 'Elite Plumbing & Electrical Solutions',
-    category: Category.HomeConstructionAndTrades,
-    subcategory: 'SERVICES',
-    tier: ListingTier.Platinum,
-    location: 'Mbombela',
-    rating: 4.9,
-    reviewCount: 378,
-    description: 'Premier plumbing and electrical contractor offering installations, repairs, maintenance, energy-efficient solutions, and certified expertise for residential & commercial.',
-    image: 'https://images.unsplash.com/photo-1581092918692-8d1d08dc641d?w=500&h=400&fit=crop',
-    phone: '+27 13 742 7500',
-    email: 'services@eliteplumbingelectrical.co.za',
-    website: 'www.eliteplumbingelectrical.co.za',
-    subscriptionDuration: SubscriptionDuration.TwelveMonths,
-    isPlatinum: true,
-    tags: ['Certified', 'Energy-Efficient', 'Emergency Services', '24/7', 'Professional'],
-  },
-  {
-    id: 'pe_002',
-    name: 'Lowveld Trade Services',
-    category: Category.HomeConstructionAndTrades,
-    subcategory: 'SERVICES',
-    tier: ListingTier.Elite,
-    location: 'Hazyview',
-    rating: 4.7,
-    reviewCount: 245,
-    description: 'Reliable plumbing & electrical services specializing in installations, repairs, maintenance, and preventive care with experienced certified technicians.',
-    image: 'https://images.unsplash.com/photo-1581092166562-40038f66a261?w=500&h=400&fit=crop',
-    phone: '+27 13 737 3800',
-    email: 'trades@lowveldservices.co.za',
-    website: 'www.lowveldservices.co.za',
-    subscriptionDuration: SubscriptionDuration.TwelveMonths,
-    isElite: true,
-    tags: ['Reliable', 'Certified Technicians', 'Preventive Maintenance', 'Fast Response', 'Quality'],
-  },
-];
+export const plumbingElectrical: Business[] = [];
 
 // ROOFING & RENOVATIONS
-export const roofingRenovations: Business[] = [
-  {
-    id: 'rr_001',
-    name: 'Premium Roofing & Renovation Specialists',
-    category: Category.HomeConstructionAndTrades,
-    subcategory: 'SERVICES',
-    tier: ListingTier.Platinum,
-    location: 'White River',
-    rating: 4.9,
-    reviewCount: 356,
-    description: 'Expert roofing company specializing in repairs, replacements, renovations, restoration, waterproofing, and premium materials with guaranteed durability.',
-    image: 'https://images.unsplash.com/photo-1581092916692-8d1d08dc641d?w=500&h=400&fit=crop',
-    phone: '+27 13 750 4600',
-    email: 'roofing@premiumroofing.co.za',
-    website: 'www.premiumroofing.co.za',
-    subscriptionDuration: SubscriptionDuration.TwelveMonths,
-    isPlatinum: true,
-    tags: ['Expert Work', 'Waterproofing', 'Premium Materials', 'Durability Guaranteed', 'Restoration'],
-  },
-  {
-    id: 'rr_002',
-    name: 'Lowveld Home Renovations',
-    category: Category.HomeConstructionAndTrades,
-    subcategory: 'SERVICES',
-    tier: ListingTier.Elite,
-    location: 'Mbombela',
-    rating: 4.8,
-    reviewCount: 298,
-    description: 'Professional renovation specialists offering roofing, home updates, space transformation, modern upgrades, and complete home renovation services.',
-    image: 'https://images.unsplash.com/photo-1581092918692-8d1d08dc641d?w=500&h=400&fit=crop',
-    phone: '+27 13 743 2200',
-    email: 'renovate@lowveldhomereno.co.za',
-    website: 'www.lowveldhomereno.co.za',
-    subscriptionDuration: SubscriptionDuration.TwelveMonths,
-    isElite: true,
-    tags: ['Renovation Expert', 'Modern Design', 'Quality Materials', 'On-Budget', 'Fast Turnaround'],
-  },
-];
+export const roofingRenovations: Business[] = [];
 
 // INTERIOR DESIGNERS & HOME DECOR
-export const interiorDesigners: Business[] = [
-  {
-    id: 'id_001',
-    name: 'Mpumalanga Luxury Interior Design',
-    category: Category.HomeConstructionAndTrades,
-    subcategory: 'Interior Designers & Home Decor',
-    tier: ListingTier.Platinum,
-    location: 'White River',
-    rating: 4.9,
-    reviewCount: 334,
-    description: 'Luxury interior design studio creating stunning residential & commercial spaces, bespoke furniture, color consulting, and complete home transformation.',
-    image: 'https://images.unsplash.com/photo-1565183897294-7563f3ce68c9?w=500&h=400&fit=crop',
-    phone: '+27 13 751 8300',
-    email: 'design@mpuminteriors.co.za',
-    website: 'www.mpuminteriors.co.za',
-    subscriptionDuration: SubscriptionDuration.TwelveMonths,
-    isPlatinum: true,
-    tags: ['Luxury Design', 'Bespoke', 'Color Consulting', 'Space Planning', 'Transform'],
-  },
-  {
-    id: 'id_002',
-    name: 'Lowveld Home Styling Centre',
-    category: Category.HomeConstructionAndTrades,
-    subcategory: 'Interior Designers & Home Decor',
-    tier: ListingTier.Elite,
-    location: 'Hazyview',
-    rating: 4.7,
-    reviewCount: 212,
-    description: 'Professional interior design and home decor services offering space planning, color schemes, furniture selection, styling, and personalized aesthetics.',
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&h=400&fit=crop',
-    phone: '+27 13 737 6700',
-    email: 'style@lowveldhonestyling.co.za',
-    website: 'www.lowveldhomestyling.co.za',
-    subscriptionDuration: SubscriptionDuration.TwelveMonths,
-    isElite: true,
-    tags: ['Space Planning', 'Color Consulting', 'Furniture Selection', 'Professional', 'Personalized'],
-  },
-];
+export const interiorDesigners: Business[] = [];
 
 // LANDSCAPING & GARDENING
 export const landscapingGardening: Business[] = [

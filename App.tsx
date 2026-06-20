@@ -353,7 +353,7 @@ import ProfessionalServiceDetail from './components/ProfessionalServiceDetail';
 import LegalFinancePageV2 from './components/LegalFinancePageV2';
 import LegalFinanceDetail from './components/LegalFinanceDetail';
 import SellerReputationDashboard from './components/SellerReputationDashboard';
-import NightlifePage from './components/NightlifePage';
+// NightlifePage no longer used: Nightlife now uses EatsPagePremium template
 import NightlifeDetailView from './components/NightlifeDetailView';
 import EateryDetail from './components/EateryDetail';
 import SubcategoryPage from './components/SubcategoryPage';
@@ -2084,7 +2084,7 @@ const DirectoryView = ({ navigate, favorites, toggleFavorite, businesses, initia
         [Category.SportsFitnessAndRecreation]: 'Gyms • Trainers • Yoga, Pilates & Studios',
         [Category.PetsVeterinaryAndAnimalCare]: 'Veterinary Clinics • Grooming • Boarding • Training',
         [Category.SecurityProtectionAndResponse]: 'Armed Response • Private Security • VIP Protection • Surveillance',
-        [Category.NightlifeAndEntertainment]: 'Nightclubs • Cocktail Bars • Lounges • Live Music • DJs • Casinos • Rooftop Bars',
+    [Category.NightlifeAndEntertainment]: 'CLUBS & LOUNGES • LIVE MUSIC & VENUES • BARS & COCKTAIL LOUNGES',
     [Category.WeddingAndBridal]: 'Wedding Venues • Bridal Shops • Wedding Planners',
         [Category.AgricultureAndFarming]: 'Farm Equipment • Tractor Dealers • Irrigation Systems',
         [Category.IndustrialAndMiningServices]: 'Mining Contractors • Engineering Companies • Industrial Equipment'
@@ -2550,53 +2550,64 @@ const QuickAccessSection = ({ navigate }: { navigate: (view: string, category?: 
                     { icon: Wrench, label: "Services", view: "services" },
                     { icon: EducationIcon, label: "Education", view: "education" },
                 ].map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
-                    <button
-                        key={idx}
-                        onClick={() => handleNavigation(item.view)}
-                        className={`group flex items-center justify-center md:justify-start gap-2 md:gap-4 rounded-2xl px-3 md:px-6 py-3 md:py-4 transform transition-all duration-300 ease-out relative w-full md:w-auto ${
-                            activeView === item.view
-                                ? 'bg-black/70 border border-[#D4AF37]/40 shadow-[0_30px_60px_rgba(212,175,55,0.12)] ring-1 ring-[#D4AF37]/10'
-                                : 'bg-black/70 border border-white/6 hover:scale-102 hover:shadow-[0_18px_45px_rgba(0,0,0,0.6)] hover:border-[#D4AF37]/20'
-                        }`}
-                    >
-                        <div className="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center rounded-lg flex-shrink-0 bg-black/30 border border-transparent group-hover:border-[#D4AF37]/10 transition-colors">
-                            <item.icon className="w-4 md:w-5 h-4 md:h-5 text-[#D4AF37]" />
+                    // Each quick-access tile. Education is special-cased so its "VIEW ALL" sits inline on small screens.
+                    <div key={idx} className="flex items-center gap-3 w-full md:w-auto">
+                    {item.view === 'education' ? (
+                        // Education tile + inline VIEW ALL button (works across mobile/tablet/desktop)
+                        <div className="flex items-center gap-3 w-full">
+                          <button
+                              onClick={() => handleNavigation(item.view)}
+                              className={`group flex items-center justify-center md:justify-start gap-2 md:gap-4 rounded-2xl px-3 md:px-6 py-3 md:py-4 transform transition-all duration-300 ease-out relative flex-1 md:w-auto ${
+                                  activeView === item.view
+                                      ? 'bg-black/70 border border-[#D4AF37]/40 shadow-[0_30px_60px_rgba(212,175,55,0.12)] ring-1 ring-[#D4AF37]/10'
+                                      : 'bg-black/70 border border-white/6 hover:scale-102 hover:shadow-[0_18px_45px_rgba(0,0,0,0.6)] hover:border-[#D4AF37]/20'
+                              }`}
+                          >
+                              <div className="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center rounded-lg flex-shrink-0 bg-black/30 border border-transparent group-hover:border-[#D4AF37]/10 transition-colors">
+                                  <item.icon className="w-4 md:w-5 h-4 md:h-5 text-[#D4AF37]" />
+                              </div>
+                              <span className="text-xs md:text-sm font-bold text-gray-100 tracking-wide group-hover:text-[#D4AF37] transition-colors">{item.label}</span>
+                              {activeView === item.view && (
+                                  <div className="absolute bottom-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent rounded-full"></div>
+                              )}
+                          </button>
+
+                          <button
+                              onClick={() => { setActiveView('directory'); navigate('directory', Category.EducationAndSkills); }}
+                              className="flex-none inline-flex items-center gap-2 rounded-2xl px-3 py-2 bg-black/70 border border-white/6 text-xs font-semibold uppercase tracking-wider text-gray-100 hover:text-[#D4AF37] transition-all duration-300"
+                              aria-label="View all Education"
+                          >
+                              <span className="relative z-10">VIEW ALL</span>
+                              <ChevronRight size={14} className="relative z-10" />
+                          </button>
                         </div>
-                        <span className="text-xs md:text-sm font-bold text-gray-100 tracking-wide group-hover:text-[#D4AF37] transition-colors">{item.label}</span>
-                        {activeView === item.view && (
-                            <div className="absolute bottom-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent rounded-full"></div>
-                        )}
-                    </button>
-                    {/* Add 'View All' for Education only */}
-                    {item.view === 'education' && (
-                        // Desktop: show inline next to the Education tile
+                    ) : (
+                        // Default category tile
+                        <>
                         <button
-                            onClick={() => { setActiveView('directory'); navigate('directory', Category.EducationAndSkills); }}
-                            className="hidden lg:inline-flex items-center gap-3 bg-white text-black font-semibold text-sm uppercase tracking-wider px-4 py-2 rounded-full shadow-sm hover:brightness-95 transition-all duration-300 relative overflow-hidden"
-                            style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'San Francisco', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
-                            aria-label="View all Education"
+                            key={idx}
+                            onClick={() => handleNavigation(item.view)}
+                            className={`group flex items-center justify-center md:justify-start gap-2 md:gap-4 rounded-2xl px-3 md:px-6 py-3 md:py-4 transform transition-all duration-300 ease-out relative w-full md:w-auto ${
+                                activeView === item.view
+                                    ? 'bg-black/70 border border-[#D4AF37]/40 shadow-[0_30px_60px_rgba(212,175,55,0.12)] ring-1 ring-[#D4AF37]/10'
+                                    : 'bg-black/70 border border-white/6 hover:scale-102 hover:shadow-[0_18px_45px_rgba(0,0,0,0.6)] hover:border-[#D4AF37]/20'
+                            }`}
                         >
-                            <span className="relative z-10">VIEW ALL</span>
-                            <ChevronRight size={14} className="relative z-10" />
+                            <div className="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center rounded-lg flex-shrink-0 bg-black/30 border border-transparent group-hover:border-[#D4AF37]/10 transition-colors">
+                                <item.icon className="w-4 md:w-5 h-4 md:h-5 text-[#D4AF37]" />
+                            </div>
+                            <span className="text-xs md:text-sm font-bold text-gray-100 tracking-wide group-hover:text-[#D4AF37] transition-colors">{item.label}</span>
+                            {activeView === item.view && (
+                                <div className="absolute bottom-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent rounded-full"></div>
+                            )}
                         </button>
+                        </>
                     )}
                     </div>
                 ))}
             </div>
 
-            {/* Mobile / Tablet: place 'View All' below the categories so it doesn't squash the Education tile */}
-            <div className="mt-3 lg:hidden flex justify-center">
-                <button
-                    onClick={() => { setActiveView('directory'); navigate('directory', Category.EducationAndSkills); }}
-                    className="inline-flex items-center gap-3 bg-white text-black font-semibold text-sm uppercase tracking-wider px-4 py-2 rounded-full shadow-sm hover:brightness-95 transition-all duration-300 w-full sm:w-auto"
-                    style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'San Francisco', 'Helvetica Neue', Helvetica, Arial, sans-serif" }}
-                    aria-label="View all Education"
-                >
-                    <span className="relative z-10">VIEW ALL</span>
-                    <ChevronRight size={14} className="relative z-10" />
-                </button>
-            </div>
+            {/* Note: 'VIEW ALL' for Education renders inline next to the Education tile across breakpoints. */}
         </div>
     </div>
     );
@@ -4983,10 +4994,36 @@ function App() {
             }
             // For Nightlife & Entertainment, render the NightlifePage (Eats-like UX tailored for nightlife)
             if (activeCategory === Category.NightlifeAndEntertainment || activeCategory === 'Nightlife & Entertainment' || activeCategory === 'NIGHTLIFE & ENTERTAINMENT') {
-                return <NightlifePage navigate={handleNavigate} />;
+                // Render the Eats/Dining template for Nightlife to reuse the hero and filter UX
+                return <EatsPagePremium
+                    navigate={handleNavigate}
+                    title={'Where Mpumalanga Goes Out'}
+                    subtitle={'Explore verified clubs, live music venues, and premium nightlife experiences across Mpumalanga.'}
+                    placeholder={'Search clubs, venues, or nightlife experiences...'}
+                    hideShisanyama={true}
+                    sectionTitle={'Featured Businesses'}
+                    sectionSubtitle={'Hand-selected businesses trusted by the LowveldHub community.'}
+                    allListLabel={'All Venues'}
+                    nightlifeMode={true}
+                />;
             }
             return <ListingGridView title={activeCategory || "Directory"} items={categoryListings} type="business" favorites={favorites} toggleFavorite={toggleFavorite} navigate={handleNavigate} category={activeCategory} medicalBusinesses={medicalListings} />;
         case 'subcategory': {
+                // For Nightlife & Entertainment, use the Eats/Dining template so subcategory pages match the Dining UX
+                if (activeCategory === Category.NightlifeAndEntertainment || activeCategory === 'Nightlife & Entertainment' || activeCategory === 'NIGHTLIFE & ENTERTAINMENT') {
+                    return <EatsPagePremium
+                        navigate={handleNavigate}
+                        title={'Where Mpumalanga Goes Out'}
+                        subtitle={'Explore verified clubs, live music venues, and premium nightlife experiences across Mpumalanga.'}
+                        placeholder={'Search clubs, venues, or nightlife experiences...'}
+                        hideShisanyama={true}
+                        sectionTitle={'Featured Businesses'}
+                        sectionSubtitle={'Hand-selected businesses trusted by the LowveldHub community.'}
+                        allListLabel={'All Venues'}
+                        nightlifeMode={true}
+                    />;
+                }
+
                 // For the Beauty category, render the dedicated BeautyServicesPage
                 // which contains the full hero, filters and listings (replaces the
                 // HAIR SALONS • BARBER SHOPS • NAIL & BEAUTY STUDIOS landing).
@@ -5038,7 +5075,18 @@ function App() {
     case 'retail-detail': return <RetailDetailView retailerId={selectedBusinessId} navigate={handleNavigate} />;
     case 'business-professional': return <BusinessPage navigate={handleNavigate} />;
     case 'business-professional-detail': return <BusinessDetailViewApple businessId={selectedBusinessId} navigate={handleNavigate} favorites={favorites} toggleFavorite={toggleFavorite} businesses={localBusinesses} />;
-    case 'nightlife': return <NightlifePage navigate={handleNavigate} />;
+        case 'nightlife':
+            return <EatsPagePremium
+                navigate={handleNavigate}
+                title={'Where Mpumalanga Goes Out'}
+                subtitle={'Explore verified clubs, live music venues, and premium nightlife experiences across Mpumalanga.'}
+                placeholder={'Search clubs, venues, or nightlife experiences...'}
+                hideShisanyama={true}
+                sectionTitle={'Featured Businesses'}
+                sectionSubtitle={'Hand-selected businesses trusted by the LowveldHub community.'}
+                allListLabel={'All Venues'}
+                nightlifeMode={true}
+            />;
     case 'beauty': return <BeautyServicesPage navigate={handleNavigate} businesses={localBusinesses} />;
     case 'nightlife-detail': return <NightlifeDetailView venueId={selectedBusinessId} navigate={handleNavigate} />;
     case 'premium': return <ListingGridView title="Luxury Partners" items={premiumListings} type="business" favorites={favorites} toggleFavorite={toggleFavorite} navigate={handleNavigate} />;
